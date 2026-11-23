@@ -1,3 +1,4 @@
+
 package com.example.task03;
 
 import java.util.Comparator;
@@ -22,6 +23,36 @@ public class Task03Main {
             Comparator<? super T> order,
             BiConsumer<? super T, ? super T> minMaxConsumer) {
 
-        // your implementation here
+        class MinMax {
+            T min;
+            T max;
+            boolean initialized;
+            boolean hasNull;
+        }
+
+        MinMax result = new MinMax();
+
+        stream.forEach(element -> {
+            result.initialized = true;
+
+            if (element == null) {
+                result.hasNull = true;
+                return;
+            }
+
+            if (result.min == null || order.compare(element, result.min) < 0) {
+                result.min = element;
+            }
+
+            if (result.max == null || order.compare(element, result.max) > 0) {
+                result.max = element;
+            }
+        });
+
+        if (!result.initialized) {
+            minMaxConsumer.accept(null, null);
+        } else {
+            minMaxConsumer.accept(result.hasNull ? null : result.min, result.max);
+        }
     }
 }

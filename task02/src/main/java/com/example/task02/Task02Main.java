@@ -1,3 +1,4 @@
+
 package com.example.task02;
 
 import java.util.stream.IntStream;
@@ -11,13 +12,17 @@ public class Task02Main {
                 .limit(10)
                 .forEach(System.out::println);
         */
-
     }
 
     public static IntStream cycleGrayCode(int n) {
 
-        return null; // your implementation here
+        if (n < 1 || n > 16) {
+            throw new IllegalArgumentException("n must be between 1 and 16");
+        }
 
+        int count = 1 << n;
+
+        return IntStream.iterate(0, i -> (i + 1) % count)
+                .map(i -> i ^ (i >> 1));
     }
-
 }
